@@ -1,0 +1,2 @@
+pnpm add axios class-variance-authority clsx tailwind-merge lucide-react react-icons embla-carousel-react @base-ui/react @fontsource-variable/geist tw-animate-css
+pnpm add -D tailwindcss @tailwindcss/vite
