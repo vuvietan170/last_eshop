@@ -3,7 +3,7 @@ import { useCart } from "@/hooks/useCart";
 import { useProducts } from "@/hooks/useProducts";
 import { useTheme } from "@/hooks/useTheme";
 import { useRouter } from "@/router/router";
-import { Moon, Sun, ShoppingBag } from "lucide-react";
+import { Moon, Sun, ShoppingBag, Minus, Plus, Trash } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { X } from "lucide-react";
@@ -65,7 +65,8 @@ export const Navbar = () => {
     }
 
     //cho shopping bag
-    const { items, totalItems, totalPrice } = useCart();
+    const { items, totalItems, totalPrice, removeItem, setQuantity } =
+        useCart();
 
     return (
         <header className="h-16 border-b border-line bg-surface">
@@ -185,9 +186,60 @@ export const Navbar = () => {
                                                             <p className="line-clamp-1 text-sm text-ink">
                                                                 {item.title}
                                                             </p>
-                                                            <p className="text-xs text-ink-muted">
-                                                                {item.quantity}
-                                                            </p>
+                                                            <div className="mt-1 flex items-center gap-2">
+                                                                <button
+                                                                    onClick={() =>
+                                                                        setQuantity(
+                                                                            item.id,
+                                                                            item.quantity -
+                                                                                1,
+                                                                        )
+                                                                    }
+                                                                    className="flex h-6 w-6 items-center justify-center rounded-xl border border-line text-ink-muted hover:text-ink cursor-pointer"
+                                                                >
+                                                                    <Minus
+                                                                        size={
+                                                                            12
+                                                                        }
+                                                                    />
+                                                                </button>
+                                                                <p className="text-xs text-ink w-4 text-center">
+                                                                    {
+                                                                        item.quantity
+                                                                    }
+                                                                </p>
+                                                                <button
+                                                                    onClick={() =>
+                                                                        setQuantity(
+                                                                            item.id,
+                                                                            item.quantity +
+                                                                                1,
+                                                                        )
+                                                                    }
+                                                                    className="flex h-6 w-6 items-center justify-center rounded-xl border border-line text-ink-muted hover:text-ink cursor-pointer"
+                                                                >
+                                                                    <Plus
+                                                                        size={
+                                                                            12
+                                                                        }
+                                                                    />
+                                                                </button>
+
+                                                                <button
+                                                                    onClick={() =>
+                                                                        removeItem(
+                                                                            item.id,
+                                                                        )
+                                                                    }
+                                                                    className="ml-auto text-ink-muted hover:text-signal"
+                                                                >
+                                                                    <Trash
+                                                                        size={
+                                                                            14
+                                                                        }
+                                                                    />
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ))}
