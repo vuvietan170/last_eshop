@@ -14,6 +14,7 @@ type CartContextValue = {
     addItem: (product: Product) => void;
     removeItem: (id: number) => void;
     setQuantity: (id: number, quantity: number) => void;
+    clearCart: () => void;
     totalItems: number;
     totalPrice: number;
 };
@@ -29,7 +30,7 @@ function getInitalCart(): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-    const [items, setItems] = useState<CartItem[]>([]);
+    const [items, setItems] = useState<CartItem[]>(getInitalCart);
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(items)); // ép kiểu item vè string
@@ -76,6 +77,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 ), // Câp nhật lại quantity
         );
     }
+    function clearCart() {
+        setItems([]);
+    }
     // tông số Item
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0); // nó sẽ cộng tổng từng item 1 với giá trị khởi tạo là 0
     const totalPrice = items.reduce(
@@ -94,6 +98,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 totalPrice,
                 removeItem,
                 setQuantity,
+                clearCart,
             }}
         >
             {children}

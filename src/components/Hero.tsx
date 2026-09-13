@@ -1,6 +1,8 @@
 import type { Product } from "@/types/product";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button } from "./ui/button";
+import { useRouter } from "@/router/router";
 
 //useMemo trả về 1 giá trị để dùng trong lúc render
 // // nhận 1 product thông qua props, không tự gọi useProduct() bên trong nó. Hero chỉ hiện thị không quan tâm dữ liệu tới từ đâu (cố định 5 sản phẩm rating cao nhất)
@@ -42,6 +44,7 @@ const Hero = ({ products }: { products: Product[] }) => {
 
     const feature = topRated[selected];
 
+    const { navigate } = useRouter();
     return (
         // <div>
         //     <h1>{feature.title}</h1>
@@ -59,6 +62,13 @@ const Hero = ({ products }: { products: Product[] }) => {
                     <p className="mt-4 text-lg font-semibold text-signal">
                         ${feature.price}
                     </p>
+                    <Button
+                        variant="outline"
+                        className="mt-3 w-full"
+                        onClick={() => navigate(`/product/${feature.id}`)}
+                    >
+                        Xem chi tiết
+                    </Button>
                 </div>
                 <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
                     <div className="flex">

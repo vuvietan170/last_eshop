@@ -79,19 +79,30 @@ export const Navbar = () => {
                 </button>
                 {/* Tham chiếu trực tiếp ref vào div. Khi React render xong searchRef.current sẽ trỏ thẳng tới đúng thẻ div trong DOM thật*/}
                 <div ref={searchRef} className="relative flex-1 px-6 z-10">
-                    <input
-                        value={query}
-                        onChange={(e) => {
-                            setQuery(e.target.value);
-                            setIsOpen(true);
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (!query.trim()) return;
+                            navigate(
+                                `/search/${encodeURIComponent(query.trim())}`, // encodeURIComponent để đưa 1 chuỗi vào url(mã hóa chuỗi) , trim() để loại bỏ khoảng cách đầu cuối
+                            );
+                            setIsOpen(false);
                         }}
-                        // value query khiên cho ô input thành controlled tức là chỉ nhận giá trị từ state query,
-                        // nếu không có Onchange cập nhật lại giá trị thì thanh ipnut sẽ mãi đứng, vòng lặp sẽ liên tục cập nhật lại state mỗi khi ta gõ/xóa 1 kí tự gì đó
+                    >
+                        <input
+                            value={query}
+                            onChange={(e) => {
+                                setQuery(e.target.value);
+                                setIsOpen(true);
+                            }}
+                            // value query khiên cho ô input thành controlled tức là chỉ nhận giá trị từ state query,
+                            // nếu không có Onchange cập nhật lại giá trị thì thanh ipnut sẽ mãi đứng, vòng lặp sẽ liên tục cập nhật lại state mỗi khi ta gõ/xóa 1 kí tự gì đó
 
-                        onFocus={() => setIsOpen(true)} // khi người dùng click lại thì hiện lại
-                        placeholder="Tìm sản phẩm..."
-                        className="h-10 border w-full rounded-full px-4 max-w-md border-line bg-paper text-sm text-ink outline-none placeholder:text-ink-muted"
-                    />
+                            onFocus={() => setIsOpen(true)} // khi người dùng click lại thì hiện lại
+                            placeholder="Tìm sản phẩm..."
+                            className="h-10 border w-full rounded-full px-4 max-w-md border-line bg-paper text-sm text-ink outline-none placeholder:text-ink-muted"
+                        />
+                    </form>
                     {isOpen && results.length > 0 && (
                         <div className="absolute left-6 right-6 top-12 max-w-md overflow-hidden rounded-2xl border border-line bg-surface shadow-lg ">
                             {results.map((result) => (

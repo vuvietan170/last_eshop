@@ -6,11 +6,20 @@ import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
+import { useProducts } from "@/hooks/useProducts";
+import { ProductCard } from "@/components/ProductCard";
+import { useRouter } from "@/router/router";
 
 // nhận vào 1 prop id: number để cần biết chính xác sản phẩm nào vì mỗi sản phẩm chỉ có 1 di duy nhất
 export const ProductDetailPage = ({ id }: { id: number }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState<Product | null>(null);
+
+    //sản phẩm liên quan
+    const { products: allProducts } = useProducts();
+    const related = allProducts
+        .filter((p) => p.category === product?.category && p.id !== product.id)
+        .slice(0, 4);
 
     const { addItem } = useCart();
 
@@ -37,6 +46,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         product.discountPercentage,
     );
 
+    const {navigate} = useRouter();
     return (
         <div className="mx-auto max-w-6xl px-4 py-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
@@ -102,10 +112,32 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                             <p className="mt-2 text-xs text-ink-muted">
                                 {review.reviewerName}
                             </p>
+                            <Button
+                                variant="outline"
+                                className="mt-3 w-full"
+                                onClick={() =>
+                                    navigate(`/product/${product.id}`)
+                                }
+                            >
+                                Xem chi tiết
+                            </Button>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {related.length > 0 && (
+                <div className="mt-14 border-t border-line pt-8   ">
+                    <h1 className="text-lg font-bold text-ink mb-4 ">
+                        Các sản phẩm liên quan
+                    </h1>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {related.map((p) => (
+                            <ProductCard key={p.id} product={p} />
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

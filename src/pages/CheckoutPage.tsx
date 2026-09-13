@@ -1,8 +1,11 @@
 import { useCart } from "@/hooks/useCart";
 import { getDiscountedPrice } from "@/lib/utils";
-
+import { Button } from "@/components/ui/button";
+import { useRouter } from "@/router/router";
 export function CheckoutPage() {
-    const { items, totalPrice } = useCart();
+    const { items, totalPrice, clearCart } = useCart();
+
+    const { navigate } = useRouter();
 
     if (items.length === 0) {
         return (
@@ -40,6 +43,17 @@ export function CheckoutPage() {
                 <span>Tổng cộng:</span>
                 <span>${totalPrice.toFixed(2)}</span>
             </div>
+            <Button
+                variant="primary"
+                onClick={() => {
+                    window.alert("Thanh toán thành công!");
+                    navigate("/product");
+                    clearCart();
+                }}
+                className="mt-6 w-full"
+            >
+                Thanh toán
+            </Button>
         </div>
     );
 }
