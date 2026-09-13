@@ -1,19 +1,39 @@
 import { getDiscountedPrice } from "@/lib/utils";
 import type { CartItem } from "@/types/cart";
 import type { Product } from "@/types/product";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    type ReactNode,
+} from "react";
 
 type CartContextValue = {
     items: CartItem[];
     addItem: (product: Product) => void;
+    removeItem: (id: number) => void;
+    setQuantity: (id: number, quantity: number) => void;
     totalItems: number;
     totalPrice: number;
 };
 const CartContext = createContext<CartContextValue | null>(null);
 
+function getInitalCart(): CartItem[] {
+    try {
+        const saved = localStorage.getItem("cart");
+        return saved ? JSON.parse(saved) : []; // json.parse có thể ném lỗi nếu dữ liệu trong localstorage bị hỏng hoặc không đúng định dạng json
+    } catch {
+        return [];
+    }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
 
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(items)); // ép kiểu item vè string
+    }, [items]);
     function addItem(product: Product) {
         setItems((previous) => {
             const existing = previous.find((item) => item.id === product.id); // kiểm tra xem sản phẩm có tồn tại không
@@ -40,8 +60,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
             ];
         });
     }
-    function removeItem(product: Product){
-        
+    function removeItem(id: number) {
+        setItems((prev) => prev.filter((items) => items.id !== id));
+    }
+    // nếu quantity giảm xuống dưới 1 thì xóa luôn
+    function setQuantity(id: number, quantity: number) {
+        if (quantity < 1) {
+            removeItem(id);
+            return;
+        }
+        setItems(
+            (prev) =>
+                prev.map((item) =>
+                    item.id === id ? { ...item, quantity } : item,
+                ), // Câp nhật lại quantity
+        );
     }
     // tông số Item
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0); // nó sẽ cộng tổng từng item 1 với giá trị khởi tạo là 0
@@ -54,7 +87,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
     return (
         <CartContext.Provider
-            value={{ items, addItem, totalItems, totalPrice }}
+            value={{
+                items,
+                addItem,
+                totalItems,
+                totalPrice,
+                removeItem,
+                setQuantity,
+            }}
         >
             {children}
         </CartContext.Provider>
