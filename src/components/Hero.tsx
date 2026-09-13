@@ -1,4 +1,4 @@
-import type { Product } from "@/types/products";
+import type { Product } from "@/types/product";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -48,7 +48,7 @@ const Hero = ({ products }: { products: Product[] }) => {
         //     <img src={feature.thumbnail} alt="" />
         // </div>
         <section className="border-b border-line bg-paper-dim">
-            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 md:grid-cols-2">
+            <div className="mx-auto items-center justify-center grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 md:grid-cols-2">
                 <div>
                     <h1 className="text-4xl font-bold text-ink">
                         {feature.title}

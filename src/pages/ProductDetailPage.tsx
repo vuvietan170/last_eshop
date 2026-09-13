@@ -5,11 +5,14 @@ import type { Product } from "@/types/product";
 import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/hooks/useCart";
 
 // nhận vào 1 prop id: number để cần biết chính xác sản phẩm nào vì mỗi sản phẩm chỉ có 1 di duy nhất
 export const ProductDetailPage = ({ id }: { id: number }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState<Product | null>(null);
+
+    const { addItem } = useCart();
 
     useEffect(() => {
         setIsLoading(true); // phải set lại vì lúc lần 1 state sẽ là true nhưng khi đến lần 2 thì state sẽ là false, màn hình sẽ giữ nguyên dữ liệu cũ
@@ -68,7 +71,11 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                     </div>
                 </div>
                 {/* button */}
-                <Button variant="primary" className="mt-6 w-full">
+                <Button
+                    variant="primary"
+                    className="mt-6 w-full"
+                    onClick={() => addItem(product)}
+                >
                     Mua ngay
                 </Button>
             </div>

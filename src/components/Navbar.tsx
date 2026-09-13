@@ -154,7 +154,7 @@ export const Navbar = () => {
                                 <Popover.Popup className="w-80 rounded-2xl border border-line bg-surface p-4 shadow-lg outline-none">
                                     <div className="mb-3 flex items-center justify-between">
                                         <h3 className="text-sm font-semibold text-ink">
-                                            Giỏ hàng {totalItems}
+                                            Giỏ hàng ({totalItems})
                                         </h3>
                                         <Popover.Close
                                             render={

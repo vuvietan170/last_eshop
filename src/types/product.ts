@@ -9,6 +9,7 @@ export type Product = {
     discountPercentage: number;
     rating: number;
     category: string;
+    reviews: ProductDetailPage[];
 };
 // Tách ra để lấy dữ liệu mà không cần đào sâu vào thằng Product
 export type ProductDetailPage = {

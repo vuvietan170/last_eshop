@@ -1,5 +1,5 @@
 import { fetchAllProducts } from "@/api/products";
-import type { Product } from "@/types/products";
+import type { Product } from "@/types/product";
 import {
     createContext,
     useEffect,
@@ -9,7 +9,6 @@ import {
 } from "react";
 //Tạo 1 hook để fetch dữ liệu , dùng được cho nhiều component , néu để mỗi component tự fetch riêng thì sẽ có 3-4 lần gọi APT giống hệt nhau
 // một chút khác với phân trước là đây là hàm bát đồng bộ thay vì đồng bộ (dọc localStorage ngay lập tức)
-
 
 // trường: mảng producct , isLoading, error
 type ProductsContextValue = {

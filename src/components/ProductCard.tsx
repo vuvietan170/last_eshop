@@ -1,10 +1,10 @@
 import { useProducts } from "@/hooks/useProducts";
 import { getDiscountedPrice } from "@/lib/utils";
 import { useRouter } from "@/router/router";
-import type { Product } from "@/types/products";
+import type { Product } from "@/types/product";
 import { Button } from "./ui/button";
 
-const ProductCard = ({ product }: { product: Product }) => {
+export const ProductCard = ({ product }: { product: Product }) => {
     const haveDisconut = product.discountPercentage > 0; //kiểm tra xem có mã giảm giá không
     const finalPrice = getDiscountedPrice(
         product.price,
@@ -27,17 +27,21 @@ const ProductCard = ({ product }: { product: Product }) => {
                     <span className=" text-base font-semibold text-ink">
                         ${finalPrice.toFixed(2)}
                     </span>
-                    <span className="text-sm line-through text-ink">
-                        ${product.price.toFixed(2)}
-                        {/* làm tròn 2 chữ số */}
-                    </span>
+                    {haveDisconut && (
+                        <span className="text-sm line-through text-ink">
+                            ${product.price.toFixed(2)}
+                            {/* làm tròn 2 chữ số */}
+                        </span>
+                    )}
                 </div>
-                <Button variant="outline" className="mt-3 w-full" onClick={()=> navigate(`/product/${product.id}`)}>
+                <Button
+                    variant="outline"
+                    className="mt-3 w-full"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                >
                     Xem chi tiết
                 </Button>
             </div>
         </div>
     );
 };
-
-export default ProductCard;

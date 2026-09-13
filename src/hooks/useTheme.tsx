@@ -60,3 +60,5 @@ export function useTheme() {
     }
     return context;
 }
+
+// bọc quanh app (đây là lớp ngoài cùng ) trong main.tsx

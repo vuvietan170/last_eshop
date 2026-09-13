@@ -23,7 +23,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
             setPath(window.location.pathname);
         }
         window.addEventListener("popstate", handlePopState); // popstate là trạng thái khi back và foward
-        return window.removeEventListener("popstate", handlePopState);
+        return () => window.removeEventListener("popstate", handlePopState);
     }, []);
     // gửi chuỗi đi
     function navigate(to: string) {
@@ -53,7 +53,7 @@ export function matchRoute(
     const patternParts = pattern.split("/").filter(Boolean); // tách chuỗi theo dấu /, và filter(Boolean) để loại bỏ khoảng trắng
     const pathParts = path.split("/").filter(Boolean);
 
-    if (patternParts !== pathParts) return null; // kiểm tra xem số phần tử có bằng nhau không patternParts = ["users", ":id"]; pathParts = ["users", "123"]
+    if (patternParts.length !== pathParts.length) return null; // kiểm tra xem số phần tử có bằng nhau không patternParts = ["users", ":id"]; pathParts = ["users", "123"]
     // mô tả theo dạng param vì không biết trước route sẽ có bao nhiêu tham số động , tên gì
     const params: Record<string, string> | null = {};
 

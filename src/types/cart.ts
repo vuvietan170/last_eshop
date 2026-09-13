@@ -1,4 +1,3 @@
-import { getDiscountedPrice } from "@/lib/utils";
 export type CartItem = {
     id: number;
     title: string;

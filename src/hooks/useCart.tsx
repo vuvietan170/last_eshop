@@ -40,6 +40,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
             ];
         });
     }
+    function removeItem(product: Product){
+        
+    }
     // tông số Item
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0); // nó sẽ cộng tổng từng item 1 với giá trị khởi tạo là 0
     const totalPrice = items.reduce(

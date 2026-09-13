@@ -3,23 +3,25 @@
 /* Dark mode : Tailwind hiểu dark ở đây là dựa the class .dark trên html*/
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 /* thêm màu  */
 @theme {
-  --color-paper: #faf9f6;
-  --color-ink: #17140f;
-  --color-ink-muted: #736c62;
-  --color-surface: #ffffff;
-  --color-line: #e7e2d8;
-  --color-signal: #ff4d2e;
+    --color-paper: #faf9f6;
+    --color-paper-dim: #f1ede9;
+
+    --color-ink: #17140f;
+    --color-ink-muted: #736c62;
+    --color-surface: #ffffff;
+    --color-line: #e7e2d8;
+    --color-signal: #ff4d2e;
 }
 
 /* bộ màu của darkmode */
-.dark{
-  --color-paper: #14120f;
-  --color-ink: #f3efe6;
-  --color-ink-muted: #a39a8c;
-  --color-surface: #1d1a15;
-  --color-line: #322d24;
-  --color-signal: #ff6b4a;
+.dark {
+    --color-paper: #14120f;
+    --color-paper-dim:#14120f;
+    --color-ink: #f3efe6;
+    --color-ink-muted: #a39a8c;
+    --color-surface: #1d1a15;
+    --color-line: #322d24;
+    --color-signal: #ff6b4a;
 }
