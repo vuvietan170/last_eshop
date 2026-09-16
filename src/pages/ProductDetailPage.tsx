@@ -21,7 +21,8 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         .filter((p) => p.category === product?.category && p.id !== product.id)
         .slice(0, 4);
 
-    const { addItem } = useCart();
+    const { addItem, totalItems } = useCart();
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         setIsLoading(true); // phải set lại vì lúc lần 1 state sẽ là true nhưng khi đến lần 2 thì state sẽ là false, màn hình sẽ giữ nguyên dữ liệu cũ
@@ -46,7 +47,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         product.discountPercentage,
     );
 
-    const {navigate} = useRouter();
+    const { navigate } = useRouter();
     return (
         <div className="mx-auto max-w-6xl px-4 py-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
@@ -79,12 +80,37 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                             </span>
                         )}
                     </div>
+
+                    {/* them sua xoa setquantity cho gio hang */}
+                    <div className="mt-6 flex items-center gap-3">
+                        <div className="flex items-center  ">
+                            <button
+                                onClick={() =>
+                                    setQuantity((q) => Math.max(q + 1))
+                                }
+                                className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
+                            >
+                                +
+                            </button>
+                            <span className="w-9 text-center text-md text-ink font-semibold">
+                                {quantity}
+                            </span>
+                            <button
+                                onClick={() =>
+                                    setQuantity((q) => Math.max(q - 1))
+                                }
+                                className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
+                            >
+                                -
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 {/* button */}
                 <Button
                     variant="primary"
                     className="mt-6 w-full"
-                    onClick={() => addItem(product)}
+                    onClick={() => addItem(product, quantity)}
                 >
                     Mua ngay
                 </Button>
@@ -112,7 +138,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                             <p className="mt-2 text-xs text-ink-muted">
                                 {review.reviewerName}
                             </p>
-                            <Button
+                            {/* <Button
                                 variant="outline"
                                 className="mt-3 w-full"
                                 onClick={() =>
@@ -120,7 +146,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                                 }
                             >
                                 Xem chi tiết
-                            </Button>
+                            </Button> */}
                         </div>
                     ))}
                 </div>
