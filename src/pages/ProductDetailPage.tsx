@@ -86,22 +86,23 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                         <div className="flex items-center  ">
                             <button
                                 onClick={() =>
-                                    setQuantity((q) => Math.max(q + 1))
-                                }
-                                className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
-                            >
-                                +
-                            </button>
-                            <span className="w-9 text-center text-md text-ink font-semibold">
-                                {quantity}
-                            </span>
-                            <button
-                                onClick={() =>
                                     setQuantity((q) => Math.max(q - 1))
                                 }
                                 className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
                             >
                                 -
+                            </button>
+                            <span className="w-9 text-center text-md text-ink font-semibold">
+                                {quantity}
+                            </span>
+
+                            <button
+                                onClick={() =>
+                                    setQuantity((q) => Math.max(q + 1))
+                                }
+                                className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
+                            >
+                                +
                             </button>
                         </div>
                     </div>

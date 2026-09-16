@@ -62,13 +62,22 @@ const Hero = ({ products }: { products: Product[] }) => {
                     <p className="mt-4 text-lg font-semibold text-signal">
                         ${feature.price}
                     </p>
-                    <Button
-                        variant="outline"
-                        className="mt-3 w-full"
-                        onClick={() => navigate(`/product/${feature.id}`)}
-                    >
-                        Xem chi tiết
-                    </Button>
+                    <div className="flex items-center justify-center gap-3">
+                        <Button
+                            variant="outline"
+                            className="mt-3 w-full"
+                            onClick={() => navigate(`/product/${feature.id}`)}
+                        >
+                            Xem chi tiết
+                        </Button>
+                        <Button
+                            variant="primary"
+                            className="mt-3 w-full"
+                            onClick={() => navigate(`/product/${feature.id}`)}
+                        >
+                            Mua ngay
+                        </Button>
+                    </div>
                 </div>
                 <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
                     <div className="flex">

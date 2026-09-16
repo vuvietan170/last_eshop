@@ -11,7 +11,7 @@ import {
 
 type CartContextValue = {
     items: CartItem[];
-    addItem: (product: Product) => void;
+    addItem: (product: Product, quantity?: number) => void;
     removeItem: (id: number) => void;
     setQuantity: (id: number, quantity: number) => void;
     clearCart: () => void;
@@ -35,7 +35,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(items)); // ép kiểu item vè string
     }, [items]);
-    function addItem(product: Product) {
+    function addItem(product: Product, quantity: number = 1) {
         setItems((previous) => {
             const existing = previous.find((item) => item.id === product.id); // kiểm tra xem sản phẩm có tồn tại không
             //có thì map render ra
@@ -43,7 +43,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 return previous.map(
                     (item) =>
                         item.id === product.id
-                            ? { ...item, quantity: item.quantity + 1 } // tạo 1 object mới từ item, tăng chỉ số quantity lên 1. cấu trúc: object mới và thông tin thêm vào
+                            ? { ...item, quantity: item.quantity + quantity } // tạo 1 object mới từ item, tăng chỉ số quantity lên 1. cấu trúc: object mới và thông tin thêm vào
                             : item, // không trùng id thì giữ nguyên
                 );
             }
@@ -56,7 +56,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                     thumbnail: product.thumbnail,
                     price: product.price,
                     discountPercentage: product.discountPercentage,
-                    quantity: 1, // sản phẩm chưa có trong giỏ hàng sẽ được thêm vào với số lượng = 1
+                    quantity, // sản phẩm chưa có trong giỏ hàng sẽ được thêm vào với số lượng = 1 -> khởi tạo ở hàm
                 },
             ];
         });

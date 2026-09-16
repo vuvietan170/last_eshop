@@ -2,6 +2,7 @@ import { useCart } from "@/hooks/useCart";
 import { getDiscountedPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/router/router";
+import { ArrowLeft } from "lucide-react";
 export function CheckoutPage() {
     const { items, totalPrice, clearCart } = useCart();
 
@@ -16,6 +17,14 @@ export function CheckoutPage() {
     }
     return (
         <div className="mx-auto max-w-2xl px-4 py-10">
+            <div className="mb-8  ">
+                <button
+                    onClick={() => window.history.go(-1)}
+                    className="flex items-center gap-2 hover:text-signal cursor-pointer text-md font-semibold"
+                >
+                    <ArrowLeft size={14} /> <span>Quay lại</span>
+                </button>
+            </div>
             <h1 className="text-xl font-bold text-ink mb-6">Thanh Toán</h1>
 
             <div className="space-y-3">
