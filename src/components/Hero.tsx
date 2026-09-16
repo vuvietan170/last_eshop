@@ -3,6 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "@/router/router";
+import { RatingStar } from "./RatingStar";
 
 //useMemo trả về 1 giá trị để dùng trong lúc render
 // // nhận 1 product thông qua props, không tự gọi useProduct() bên trong nó. Hero chỉ hiện thị không quan tâm dữ liệu tới từ đâu (cố định 5 sản phẩm rating cao nhất)
@@ -59,9 +60,13 @@ const Hero = ({ products }: { products: Product[] }) => {
                     <p className="mt-4 text-sm text-ink-muted">
                         {feature.description}
                     </p>
+
                     <p className="mt-4 text-lg font-semibold text-signal">
                         ${feature.price}
                     </p>
+                    <div className="mt-2 mb-2">
+                        <RatingStar rating={feature.rating}/>
+                    </div>
                     <div className="flex items-center justify-center gap-3">
                         <Button
                             variant="outline"

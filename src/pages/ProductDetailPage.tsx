@@ -9,6 +9,7 @@ import { useCart } from "@/hooks/useCart";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { useRouter } from "@/router/router";
+import { RatingStar } from "@/components/RatingStar";
 
 // nhận vào 1 prop id: number để cần biết chính xác sản phẩm nào vì mỗi sản phẩm chỉ có 1 di duy nhất
 export const ProductDetailPage = ({ id }: { id: number }) => {
@@ -59,11 +60,14 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                         {product.title}
                     </h1>
                     <div className="mt-2 flex items-center gap-1 text-sm text-ink-muted">
-                        <Star
+                        {/* <Star
                             size={14}
                             className="text-amber-500 fill-amber-500" // text: là tô viền , fill là tô trong
                         />
-                        {product.rating.toFixed(1)}
+                        {product.rating.toFixed(1)} */}
+                        <RatingStar
+                            rating={Number(product.rating.toFixed(2))}
+                        />
                     </div>
 
                     <p className="mt-4 text-sm  leading-relaxed text-ink-muted">
@@ -86,7 +90,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                         <div className="flex items-center  ">
                             <button
                                 onClick={() =>
-                                    setQuantity((q) => Math.max(q - 1))
+                                    setQuantity((q) => Math.max(1, q - 1))
                                 }
                                 className="flex items-center h-11 w-11 justify-center text-lg text-ink-muted border border-line rounded-full hover:bg-signal hover:text-paper cursor-pointer"
                             >
@@ -127,11 +131,13 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                             className="border border-line rounded-3xl p-4"
                         >
                             <div className="flex items-center gap-1 text-sm text-ink-muted">
-                                <Star
+                                {/* <<Star
                                     size={13}
                                     className="text-amber-500 fill-amber-500"
+                                />> */}
+                                <RatingStar
+                                    rating={review.rating}
                                 />
-                                {review.rating}
                             </div>
                             <p className="mt-2 text-sm text-ink">
                                 {review.comment}

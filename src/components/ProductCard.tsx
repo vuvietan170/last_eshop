@@ -3,6 +3,7 @@ import { getDiscountedPrice } from "@/lib/utils";
 import { useRouter } from "@/router/router";
 import type { Product } from "@/types/product";
 import { Button } from "./ui/button";
+import { RatingStar } from "./RatingStar";
 
 export const ProductCard = ({ product }: { product: Product }) => {
     const haveDisconut = product.discountPercentage > 0; //kiểm tra xem có mã giảm giá không
@@ -33,6 +34,9 @@ export const ProductCard = ({ product }: { product: Product }) => {
                             {/* làm tròn 2 chữ số */}
                         </span>
                     )}
+                </div>
+                <div>
+                    <RatingStar rating={product.rating} />
                 </div>
                 <Button
                     variant="outline"
