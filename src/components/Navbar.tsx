@@ -65,8 +65,16 @@ export const Navbar = () => {
     }
 
     //cho shopping bag
-    const { items, totalItems, totalPrice, removeItem, setQuantity } =
-        useCart();
+    const {
+        items,
+        totalItems,
+        totalPrice,
+        removeItem,
+        setQuantity,
+        isCartOpen,
+        openCart,
+        closeCart,
+    } = useCart();
 
     return (
         <header className="h-16 border-b border-line bg-surface">
@@ -137,7 +145,12 @@ export const Navbar = () => {
                         {isDark ? <Moon size={18} /> : <Sun size={18} />}
                     </Button>
                     {/* Root  là thẻ cha cao nhất, đóng vai trò quản lý trạng thái đóng/mở của toàn bộ Popover */}
-                    <Popover.Root>
+                    <Popover.Root
+                        open={isCartOpen}
+                        onOpenChange={(open) =>
+                            open ? openCart() : closeCart()
+                        } // khi bấm trigger, bấm ra ngoài hoặc bấm close thì sẽ lắng nghe sự kiện(như addEventListener) đó rồi tự gọi openCart/closeCart
+                    >
                         {/* Trigger là nút phần tử dùng để mở Popover , thay vì phải dùng .trigger kèm thêm .content trong khi render thì ta dùng luôn Button làm phần tử trigger */}
                         {/* Popover này được mở khi người dùng click vào Button có icon giỏ hàng */}
                         <Popover.Trigger
