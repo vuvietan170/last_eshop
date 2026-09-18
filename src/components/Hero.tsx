@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "@/router/router";
 import { RatingStar } from "./RatingStar";
+import { useCart } from "@/hooks/useCart";
+import { getDiscountedPrice } from "@/lib/utils";
 
 //useMemo trả về 1 giá trị để dùng trong lúc render
 // // nhận 1 product thông qua props, không tự gọi useProduct() bên trong nó. Hero chỉ hiện thị không quan tâm dữ liệu tới từ đâu (cố định 5 sản phẩm rating cao nhất)
@@ -46,6 +48,11 @@ const Hero = ({ products }: { products: Product[] }) => {
     const feature = topRated[selected];
 
     const { navigate } = useRouter();
+
+    const finalPrice = getDiscountedPrice(
+        feature.price,
+        feature.discountPercentage,
+    );
     return (
         // <div>
         //     <h1>{feature.title}</h1>
@@ -60,12 +67,18 @@ const Hero = ({ products }: { products: Product[] }) => {
                     <p className="mt-4 text-sm text-ink-muted">
                         {feature.description}
                     </p>
+                    <div className="flex mt-4 gap-2 items-center ">
+                        <p className="text-lg font-semibold text-signal">
+                            ${finalPrice.toFixed(2)}
+                        </p>
 
-                    <p className="mt-4 text-lg font-semibold text-signal">
-                        ${feature.price}
-                    </p>
+                        <p className="line-through text-ink-muted text-md">
+                            ${feature.price.toFixed(2)}
+                        </p>
+                    </div>
+
                     <div className="mt-2 mb-2">
-                        <RatingStar rating={feature.rating}/>
+                        <RatingStar rating={feature.rating} />
                     </div>
                     <div className="flex items-center justify-center gap-3">
                         <Button

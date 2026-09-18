@@ -24,7 +24,7 @@ function getInitalOrders(): Order[] {
         return [];
     }
 }
-export function OrdersProvier({ children }: { children: ReactNode }) {
+export function OrdersProvider({ children }: { children: ReactNode }) {
     const [orders, setOrders] = useState<Order[]>(getInitalOrders);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export function OrdersProvier({ children }: { children: ReactNode }) {
             id: crypto.randomUUID(), // tạo ra 1 id ngẫu nhiên gần như không thể trùng lặp
             items,
             total,
-            creatAt: new Date().toISOString(), // tạo ra thời điểm hiện tại. tostring đổi thành 1 chuỗi vì localStorage không lưu được object Data trực tiếp
+            createdAt: new Date().toISOString(), // tạo ra thời điểm hiện tại. tostring đổi thành 1 chuỗi vì localStorage không lưu được object Data trực tiếp
         };
         setOrders((prev) => [newOrder, ...prev]); // nhét cái order mới lên đầu
     }

@@ -5,6 +5,7 @@ import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { HomePage } from "./pages/HomePage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { SearchResultPage } from "./pages/SearchResultPage";
+import { OrderPage } from "./pages/OrderPage";
 function App() {
     const { path } = useRouter();
     const productMatch = matchRoute("/product/:id", path);
@@ -22,6 +23,8 @@ function App() {
                     />
                 ) : path === "/checkout" ? (
                     <CheckoutPage />
+                ) : path === "/orders" ? (
+                    <OrderPage />
                 ) : (
                     <HomePage />
                 )}

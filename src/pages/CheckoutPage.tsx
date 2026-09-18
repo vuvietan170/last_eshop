@@ -3,8 +3,16 @@ import { getDiscountedPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/router/router";
 import { ArrowLeft } from "lucide-react";
+import { useOrders } from "@/hooks/useOrders";
 export function CheckoutPage() {
     const { items, totalPrice, clearCart } = useCart();
+
+    const { addOrder } = useOrders();
+    function handlePlaceOrder() {
+        addOrder(items, totalPrice);
+        clearCart();
+        navigate(`/orders`);
+    }
 
     const { navigate } = useRouter();
 
@@ -54,14 +62,10 @@ export function CheckoutPage() {
             </div>
             <Button
                 variant="primary"
-                onClick={() => {
-                    window.alert("Thanh toán thành công!");
-                    navigate("/product");
-                    clearCart();
-                }}
+                onClick={handlePlaceOrder}
                 className="mt-6 w-full"
             >
-                Thanh toán
+                Đặt hàng
             </Button>
         </div>
     );

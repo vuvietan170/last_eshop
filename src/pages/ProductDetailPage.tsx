@@ -10,6 +10,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { useRouter } from "@/router/router";
 import { RatingStar } from "@/components/RatingStar";
+import { useToast } from "@/hooks/useToast";
 
 // nhận vào 1 prop id: number để cần biết chính xác sản phẩm nào vì mỗi sản phẩm chỉ có 1 di duy nhất
 export const ProductDetailPage = ({ id }: { id: number }) => {
@@ -22,8 +23,10 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         .filter((p) => p.category === product?.category && p.id !== product.id)
         .slice(0, 4);
 
-    const { addItem, totalItems } = useCart();
+    const { addItem, totalItems, isCartOpen, openCart, closeCart } = useCart();
     const [quantity, setQuantity] = useState(1);
+
+    const { showToast } = useToast();
 
     useEffect(() => {
         setIsLoading(true); // phải set lại vì lúc lần 1 state sẽ là true nhưng khi đến lần 2 thì state sẽ là false, màn hình sẽ giữ nguyên dữ liệu cũ
@@ -115,7 +118,11 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                 <Button
                     variant="primary"
                     className="mt-6 w-full"
-                    onClick={() => addItem(product, quantity)}
+                    onClick={() => {
+                        addItem(product, quantity);
+                        openCart();
+                        showToast(`Đã thêm vào giỏ hàng`);
+                    }}
                 >
                     Mua ngay
                 </Button>
@@ -135,9 +142,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
                                     size={13}
                                     className="text-amber-500 fill-amber-500"
                                 />> */}
-                                <RatingStar
-                                    rating={review.rating}
-                                />
+                                <RatingStar rating={review.rating} />
                             </div>
                             <p className="mt-2 text-sm text-ink">
                                 {review.comment}
