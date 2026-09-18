@@ -77,7 +77,7 @@ export const Navbar = () => {
     } = useCart();
 
     return (
-        <header className="h-16 border-b border-line bg-surface">
+        <header className=" sticky top-0 z-50  h-16 border-b border-line bg-surface">
             <div className="flex mx-auto items-center h-full max-w-7xl px-4">
                 <button
                     className="text-lg font-bold text-ink cursor-alias"
