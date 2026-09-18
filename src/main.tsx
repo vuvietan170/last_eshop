@@ -6,6 +6,8 @@ import { ThemeProvider } from "./hooks/useTheme.tsx";
 import { ProductsProvider } from "./hooks/useProducts.tsx";
 import { RouterProvider } from "./router/router.tsx";
 import { CartProvider } from "./hooks/useCart.tsx";
+import { ToastProvider } from "./hooks/useToast.tsx";
+import { OrdersProvider } from "./hooks/useOrders.tsx";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -13,7 +15,11 @@ createRoot(document.getElementById("root")!).render(
             <ThemeProvider>
                 <ProductsProvider>
                     <CartProvider>
-                        <App />
+                        <OrdersProvider>
+                            <ToastProvider>
+                                <App />
+                            </ToastProvider>
+                        </OrdersProvider>
                     </CartProvider>
                 </ProductsProvider>
             </ThemeProvider>
