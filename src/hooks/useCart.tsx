@@ -17,6 +17,9 @@ type CartContextValue = {
     clearCart: () => void;
     totalItems: number;
     totalPrice: number;
+    isCartOpen: boolean;
+    openCart: () => void;
+    closeCart: () => void;
 };
 const CartContext = createContext<CartContextValue | null>(null);
 
@@ -31,7 +34,7 @@ function getInitalCart(): CartItem[] {
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>(getInitalCart);
-
+    const [isCartOpen, setIsCartOpen] = useState(false);
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(items)); // ép kiểu item vè string
     }, [items]);
@@ -77,6 +80,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 ), // Câp nhật lại quantity
         );
     }
+
     function clearCart() {
         setItems([]);
     }
@@ -99,6 +103,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 removeItem,
                 setQuantity,
                 clearCart,
+                isCartOpen,
+                openCart: () => setIsCartOpen(true),
+                closeCart: () => setIsCartOpen(false),
             }}
         >
             {children}
