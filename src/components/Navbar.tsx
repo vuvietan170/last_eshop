@@ -3,7 +3,15 @@ import { useCart } from "@/hooks/useCart";
 import { useProducts } from "@/hooks/useProducts";
 import { useTheme } from "@/hooks/useTheme";
 import { useRouter } from "@/router/router";
-import { Moon, Sun, ShoppingBag, Minus, Plus, Trash } from "lucide-react";
+import {
+    Moon,
+    Sun,
+    ShoppingBag,
+    Minus,
+    Plus,
+    Trash,
+    History,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { X } from "lucide-react";
@@ -301,6 +309,14 @@ export const Navbar = () => {
                             </Popover.Positioner>
                         </Popover.Portal>
                     </Popover.Root>
+                    {/* History */}
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => navigate("/orders")}
+                    >
+                        <History size={18} />
+                    </Button>
                 </div>
             </div>
         </header>
