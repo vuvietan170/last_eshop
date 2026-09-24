@@ -1,4 +1,7 @@
 //khai bao mo to san pham co nhung truong du lieu gi
+
+// type Product
+// type ProductDetailPage = Exclude<Product>
 export type Product = {
     id: number;
     title: string;
@@ -9,11 +12,12 @@ export type Product = {
     discountPercentage: number;
     rating: number;
     category: string;
-    reviews: ProductDetailPage[];
+    reviews: ProductReview[];
 };
+
 // Tách ra để lấy dữ liệu mà không cần đào sâu vào thằng Product
-export type ProductDetailPage = {
+export type ProductReview = {
     rating: number;
     comment: string;
     reviewerName: string;
-};
+}
