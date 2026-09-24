@@ -8,6 +8,7 @@ import { RouterProvider } from "./router/router.tsx";
 import { CartProvider } from "./hooks/useCart.tsx";
 import { ToastProvider } from "./hooks/useToast.tsx";
 import { OrdersProvider } from "./hooks/useOrders.tsx";
+import { AuthProvider } from "./hooks/useAuthContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
                     <CartProvider>
                         <OrdersProvider>
                             <ToastProvider>
-                                <App />
+                                <AuthProvider>
+                                    <App />
+                                </AuthProvider>
                             </ToastProvider>
                         </OrdersProvider>
                     </CartProvider>
