@@ -5,7 +5,12 @@ export function OrderPage() {
     const { orders } = useOrders();
 
     if (orders.length === 0) {
-        return <p>Chưa mua đơn hàng nào</p>;
+        return (
+            // vì nếu dùng h-screen thì sẽ ra chính giữa nhưng nó tính cả navbar nên vị trí không mong muốn
+            <p className="flex items-center justify-center text-lg font-semibold text-ink-muted min-h-[calc(100vh-140px)]">
+                Chưa mua đơn hàng nào.
+            </p>
+        );
     }
 
     return (

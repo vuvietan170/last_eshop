@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "@/router/router";
 import { RatingStar } from "./RatingStar";
-import { useCart } from "@/hooks/useCart";
 import { getDiscountedPrice } from "@/lib/utils";
+import Autoplay from "embla-carousel-autoplay";
 
 //useMemo trả về 1 giá trị để dùng trong lúc render
 // // nhận 1 product thông qua props, không tự gọi useProduct() bên trong nó. Hero chỉ hiện thị không quan tâm dữ liệu tới từ đâu (cố định 5 sản phẩm rating cao nhất)
@@ -16,7 +16,8 @@ const Hero = ({ products }: { products: Product[] }) => {
         return [...products].sort((a, b) => b.rating - a.rating).slice(0, 5); // tạo ra mảng bản sao rồi mới sort vì sort sẽ sửa trực tiếp mảng gốc , xếp theo rating cao nhất , cắt ra 5 sản phẩm !không dùng splice vì nó cũng sửa trực tiếp vào mảng
     }, [products]);
 
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }); // emblaRef gần giống như useRef ở phần search:căn đúng thẻ bọc ngoài các slide như <div ref={useRef}>,
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]); // emblaRef gần giống như useRef ở phần search:căn đúng thẻ bọc ngoài các slide như <div ref={useRef}>,
+
     //  còn emblaApi là object chứa các hàm điều khiển carosel như scrollTo() scrollNext()
     const [selected, setSelected] = useState(0);
 
@@ -28,6 +29,7 @@ const Hero = ({ products }: { products: Product[] }) => {
 
     useEffect(() => {
         if (!emblaApi) return; // kiểm tra embla đã khởi tạo chưa
+
         emblaApi.on("select", onSelect); // cú pháp select là sự kiện của Embla tự bắn ra slide mỗi khi slide đang hiển thị thay đổi(kéo vuốt,...)
         return () => {
             emblaApi.off("select", onSelect); // on off cũng giống như addEventListener và removeEL đều là đăng kí sự kiện và dọn dẹp tránh bị listener chồng chất lên nhau
@@ -36,11 +38,20 @@ const Hero = ({ products }: { products: Product[] }) => {
     //tính năng trượt tự động
     useEffect(() => {
         if (!emblaApi) return;
+        // const autoplayPlugin = emblaApi.plugins().autoplay;
+        // emblaApi.on("pointerDown", () => autoplayPlugin?.pause());
+        // emblaApi.on("pointerUp", () => autoplayPlugin?.play());
+
         //setInterval là hàm có sẵn của JS nhận vào 1 hàm và 1 khoảng thời gian rồi lặp lại việc đó mỗi khi hết thời gian
+
         const intervalId = setInterval(() => {
             emblaApi.scrollNext();
         }, 3500);
         return () => clearInterval(intervalId);
+        // return ()=>{
+        //     emblaApi.off("pointerDown",autoplayPlugin?.pause())
+        //     emblaApi.off("pointerUp",autoplayPlugin?.play())
+        // }
     }, [emblaApi]);
 
     if (topRated.length === 0) return null;

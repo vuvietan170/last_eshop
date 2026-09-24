@@ -1,7 +1,13 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
-export const ImageCarousel = ({ images, alt }: { images: string[]; alt: string }) => {
+export const ImageCarousel = ({
+    images,
+    alt,
+}: {
+    images: string[];
+    alt: string;
+}) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }); //emblaRef căn thẻ bọc ngoài, emblaApi là đối tượng chứa các hàm điều khiển
 
     useEffect(() => {

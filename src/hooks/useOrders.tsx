@@ -19,7 +19,7 @@ const OrdersContext = createContext<OrderContextValue | null>(null);
 function getInitalOrders(): Order[] {
     try {
         const saved = localStorage.getItem("orders"); // lấy dữ liệu có key là orders
-        return saved ? JSON.parse(saved) : []; // nếu có nó chuyên string Json thành JS object
+        return saved ? JSON.parse(saved) : []; // nếu có, nó chuyên string Json thành JS object
     } catch {
         return [];
     }

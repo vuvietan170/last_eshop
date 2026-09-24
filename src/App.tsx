@@ -6,7 +6,7 @@ import { CheckoutPage } from "./pages/CheckoutPage";
 import { SearchResultPage } from "./pages/SearchResultPage";
 import { OrderPage } from "./pages/OrderPage";
 import { LoginPage } from "./pages/LoginPage";
-import { useAuth } from "./hooks/useAuthContext";
+import { useAuth } from "./hooks/useAuth";
 import { SellerPage } from "./pages/SellerPage";
 function App() {
     const { path, navigate } = useRouter();

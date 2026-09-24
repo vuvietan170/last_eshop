@@ -3,12 +3,10 @@ import { ImageCarousel } from "@/components/ImageCarousel";
 import { getDiscountedPrice } from "@/lib/utils";
 import type { Product } from "@/types/product";
 import { useEffect, useState } from "react";
-import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components/ProductCard";
-import { useRouter } from "@/router/router";
 import { RatingStar } from "@/components/RatingStar";
 import { useToast } from "@/hooks/useToast";
 
@@ -23,7 +21,7 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         .filter((p) => p.category === product?.category && p.id !== product.id)
         .slice(0, 4);
 
-    const { addItem, totalItems, isCartOpen, openCart, closeCart } = useCart();
+    const { addItem, openCart } = useCart();
     const [quantity, setQuantity] = useState(1);
 
     const { showToast } = useToast();
@@ -51,7 +49,6 @@ export const ProductDetailPage = ({ id }: { id: number }) => {
         product.discountPercentage,
     );
 
-    const { navigate } = useRouter();
     return (
         <div className="mx-auto max-w-6xl px-4 py-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2">

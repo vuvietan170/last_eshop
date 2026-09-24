@@ -95,6 +95,7 @@ export const Navbar = () => {
                 </button>
                 {/* Tham chiếu trực tiếp ref vào div. Khi React render xong searchRef.current sẽ trỏ thẳng tới đúng thẻ div trong DOM thật*/}
                 <div ref={searchRef} className="relative flex-1 px-6 z-10">
+                    {/* Form cho submit khi bấm enter sẽ điều hướng sang trang /search */}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -144,6 +145,8 @@ export const Navbar = () => {
                         </div>
                     )}
                 </div>
+
+                {/* DarkMode, ShoppingCart, History */}
                 <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
@@ -317,8 +320,19 @@ export const Navbar = () => {
                     >
                         <History size={18} />
                     </Button>
+
+                    <Button
+                        variant="outline"
+                        onClick={() => navigate("/login")}
+                    >
+                        Đăng nhập
+                    </Button>
                 </div>
             </div>
         </header>
+        // <Logo>
+        // <SearchBar>
+        // >ThemeSwitch>
+        // <CartButton>
     );
 };

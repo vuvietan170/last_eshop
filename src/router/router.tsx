@@ -1,7 +1,5 @@
-import { useTheme } from "@/hooks/useTheme";
 import {
     createContext,
-    use,
     useContext,
     useEffect,
     useState,

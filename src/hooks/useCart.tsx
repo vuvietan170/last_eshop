@@ -36,7 +36,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>(getInitalCart);
     const [isCartOpen, setIsCartOpen] = useState(false);
     useEffect(() => {
+        // 1. getItem from lòcalStorage
+        // 2. setState(item)
         localStorage.setItem("cart", JSON.stringify(items)); // ép kiểu item vè string
+
     }, [items]);
     function addItem(product: Product, quantity: number = 1) {
         setItems((previous) => {

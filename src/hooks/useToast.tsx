@@ -1,11 +1,6 @@
 // Hiển thị thông báo đã thêm vào giỏ hàng ở bất kì đâu trên trang web, Tạo Toast -> hiển thị -> tự động xóa sau 2 giây
 
-import React, {
-    createContext,
-    useContext,
-    useState,
-    type ReactNode,
-} from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 type ToastItem = { id: number; message: string };
 type ToastContextValue = {
@@ -33,7 +28,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             {children}
             <div className="fixed h-30 right-4 bottom-20 z-[100] flex flex-col gap-2">
                 {toast.map((t) => (
-                    <div key={t.id} className="animate-in fade-in slide-in-from-right-4 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink shadow-lg">{t.message}</div>
+                    <div
+                        key={t.id}
+                        className="animate-in fade-in slide-in-from-right-4 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink shadow-lg"
+                    >
+                        {t.message}
+                    </div>
                 ))}
             </div>
         </ToastContext.Provider>

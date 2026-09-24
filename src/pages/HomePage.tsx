@@ -13,6 +13,8 @@ export const HomePage = () => {
         null,
     );
 
+    // khi React runtime nó sẽ tạo ra một vùng nhớ tạm để lưu lại giá trị tạm thời, lưu vào để tra cứu 
+    // Ghi nhớ lại category để khỏi phải tính lại, lưu dữ liệu vào trong RAM 
     const categories = useMemo(
         () => Array.from(new Set(products.map((p) => p.category))), // đưa vào new Set sẽ tự lọc lại mỗi category đúng 1 lần, Arrayform để chuyển trực tiếp mảng không dùng được map về thành mảng dùng được map ví dụ {"phone", "laptop", "tablet"} => ["phone", laptop, "tablet"] để có thể sử dựng được
         [products],
@@ -22,7 +24,6 @@ export const HomePage = () => {
     const filterProducts = selectedCategory
         ? products.filter((p) => p.category === selectedCategory)
         : products;
-
     return (
         <>
             <Hero products={products} />

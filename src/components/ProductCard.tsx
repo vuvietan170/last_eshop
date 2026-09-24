@@ -1,4 +1,3 @@
-import { useProducts } from "@/hooks/useProducts";
 import { getDiscountedPrice } from "@/lib/utils";
 import { useRouter } from "@/router/router";
 import type { Product } from "@/types/product";
@@ -19,8 +18,9 @@ export const ProductCard = ({ product }: { product: Product }) => {
 
     //thêm nút mua trên giỏ hàng, thôg báo
     const { addItem, openCart } = useCart(); // khi add item thi open cart
-    const { showToast } = useToast();
+    const { showToast } = useToast(); // dùng lại hàm showtoast 
 
+    // mouseEvent là kiểu dữ liệu đại diện cho các hành động của chuột
     const handleBuy = (e: React.MouseEvent) => {
         e.preventDefault();
         addItem(product);

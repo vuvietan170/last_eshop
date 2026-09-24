@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "@/router/router";
 import React, { useState } from "react";
 
