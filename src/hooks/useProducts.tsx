@@ -67,10 +67,12 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
         const nextProducts = products.map((currentProduct) =>
             currentProduct.id === product.id ? product : currentProduct,
         );
+        saveProduct(nextProducts);
     }
 
     function deleteProduct(id: number) {
         const nextProducts = products.filter((product) => product.id !== id);
+        saveProduct(nextProducts);
     }
     return (
         <ProductsContext.Provider
