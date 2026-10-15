@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 import { useProducts } from "@/hooks/useProducts";
 import { useTheme } from "@/hooks/useTheme";
 import { useRouter } from "@/router/router";
@@ -31,6 +32,7 @@ export const Navbar = () => {
     //     localStorage.setItem("theme", isDark ? "dark" : "light"); // set giá trị thằng theme này vào biến nhớ tạm thời với cặp giá trị key là theme, còn value là dark hoặc light
     // }, [isDark]);
     const { isDark, toggleTheme } = useTheme();
+    const { user, logout } = useAuth();
 
     //search query
     const { products } = useProducts(); //lấy dữ liệu products
@@ -64,7 +66,7 @@ export const Navbar = () => {
     }, []);
 
     // navigate
-    const { navigate } = useRouter();
+    const { navigate, path } = useRouter();
     // tạo hàm giả định click khi bấm vào sp, đồng thời làm mới input và đóng cửa sổ result
     function hanldeSelectResult(productId: number) {
         navigate(`/product/${productId}`);
@@ -89,7 +91,7 @@ export const Navbar = () => {
             <div className="flex mx-auto items-center h-full max-w-7xl px-4">
                 <button
                     className="text-lg font-bold text-ink cursor-alias"
-                    onClick={() => navigate(`/product/`)}
+                    onClick={() => navigate("/")}
                 >
                     ESHOP<span className="text-signal">.</span>
                 </button>
@@ -321,12 +323,38 @@ export const Navbar = () => {
                         <History size={18} />
                     </Button>
 
-                    <Button
-                        variant="outline"
-                        onClick={() => navigate("/login")}
-                    >
-                        Đăng nhập
-                    </Button>
+                    {user?.role === "seller" ? (
+                        <>
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    navigate(
+                                        path === "/seller" ? "/" : "/seller",
+                                    )
+                                }
+                            >
+                                {path === "/seller"
+                                    ? "Trang chủ"
+                                    : "Seller Page"}
+                            </Button>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    logout();
+                                    navigate("/login");
+                                }}
+                            >
+                                Đăng xuất
+                            </Button>
+                        </>
+                    ) : (
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate("/login")}
+                        >
+                            Đăng nhập
+                        </Button>
+                    )}
                 </div>
             </div>
         </header>

@@ -1,6 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useProducts } from "@/hooks/useProducts";
-import { useRouter } from "@/router/router";
 import type { Product } from "@/types/product";
 import { useState, type FormEvent } from "react";
 
@@ -32,9 +31,7 @@ function getFormValues(product: Product): ProductForm {
 }
 
 export function SellerPage() {
-    const { user, logout } = useAuth();
-
-    const { navigate } = useRouter();
+    const { user } = useAuth();
 
     const {
         products,
@@ -108,27 +105,6 @@ export function SellerPage() {
         <div className="min-h-screen bg-paper px-4 py-8 text-ink-muted sm:px-8">
             <div className="mx-auto max-w-7xl">
                 <header className="mb-8">
-                    <div className="mt-4 flex gap-3 mb-4">
-                        <button
-                            type="button"
-                            onClick={() => navigate("/")}
-                            className="rounded-lg border border-line px-4 py-2 hover:bg-paper-dim"
-                        >
-                            Quay lại
-                        </button>
-
-                        <button
-                            type="button"
-                            onClick={() => {
-                                logout();
-                                navigate("/login");
-                            }}
-                            className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-                        >
-                            Đăng xuất
-                        </button>
-                    </div>
-
                     <p className="text-sm text-ink-muted">Seller DashBoard</p>
                     <h1 className="text-3xl font-bold">Quản lý sản phẩm</h1>
                     <p className="mt-2 text-ink-muted">
@@ -198,7 +174,7 @@ export function SellerPage() {
                             onChange={(e) =>
                                 setForm({ ...form, thumbnail: e.target.value })
                             }
-                            placeholder="Link ảnh..."
+                            placeholder="Link ảnh thumbnail..."
                             className="h-11 w-full rounded-lg border border-line bg-paper p-3"
                         />
 

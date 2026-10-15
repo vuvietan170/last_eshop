@@ -23,7 +23,14 @@ function App() {
         if (user.role !== "seller") {
             return <p>Bạn không có quyền truy cập trang này</p>;
         }
-        return <SellerPage />;
+
+        // 
+        return (
+            <div className="min-h-screen bg-paper text-ink">
+                <Navbar />
+                <SellerPage />
+            </div>
+        );
     }
     return (
         <>

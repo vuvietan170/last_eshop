@@ -1,9 +1,8 @@
 import { fetchAllProducts } from "@/api/products";
 import type { Product } from "@/types/product";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     createContext,
-    useEffect,
-    useState,
     useContext,
     type ReactNode,
 } from "react";
@@ -24,25 +23,42 @@ const ProductsContext = createContext<ProductsContextValue | null>(null);
 
 export function ProductsProvider({ children }: { children: ReactNode }) {
     // Khởi tạo các trạng thái
-    const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true); // ngay khi component vừa xuát hiện thì việc fetch dữ liệu cũng bắt đầu chạy nên trạng thái đúng nhất lúc khởi tạo là true
-    const [error, setError] = useState<string | null>(null);
+    // const [products, setProducts] = useState<Product[]>([]);
+    // const [isLoading, setIsLoading] = useState(true); // ngay khi component vừa xuát hiện thì việc fetch dữ liệu cũng bắt đầu chạy nên trạng thái đúng nhất lúc khởi tạo là true
+    // const [error, setError] = useState<string | null>(null);
 
-    // thêm sản phẩm mới và set nó vào local
+    const queryClient = useQueryClient();
+
+    const {
+        data: products = [],
+        isPending,
+        error: queryError,
+    } = useQuery<Product[], Error>({
+        queryKey: ["products"],
+        queryFn: async (): Promise<Product[]> => {
+            const data = await fetchAllProducts();
+            const savedProducts = localStorage.getItem("products");
+            return savedProducts
+                ? (JSON.parse(savedProducts) as Product[])
+                : data;
+        },
+        staleTime: 60 * 1000,
+    });
+    // thêm sản phẩm mới và set nó vào localb
     function saveProduct(nextProduct: Product[]) {
-        setProducts(nextProduct);
         localStorage.setItem("products", JSON.stringify(nextProduct));
+        queryClient.setQueryData<Product[]>(["products"], nextProduct);
     }
-    //useEffect để thực hiện fetchdata
-    useEffect(() => {
-        fetchAllProducts()
-            .then((data) => {
-                const saveProduct = localStorage.getItem("products"); // lấy giá trị products
-                setProducts(saveProduct ? JSON.parse(saveProduct) : data);
-            }) // chạy khi Api tải thành công, lưu dữ liệu vào state
-            .catch(() => setError("Không thể tải sản phẩm")) // lỗi sever, mất mạng... thì trả về
-            .finally(() => setIsLoading(false)); //mặc định luôn chạy kể cả lỗi hay không (đang tải mà )
-    }, []);
+    // //useEffect để thực hiện fetchdata
+    // useEffect(() => {
+    //     fetchAllProducts()
+    //         .then((data) => {
+    //             const saveProduct = localStorage.getItem("products"); // lấy giá trị products
+    //             setProducts(saveProduct ? JSON.parse(saveProduct) : data);
+    //         }) // chạy khi Api tải thành công, lưu dữ liệu vào state
+    //         .catch(() => setError("Không thể tải sản phẩm")) // lỗi sever, mất mạng... thì trả về
+    //         .finally(() => setIsLoading(false)); //mặc định luôn chạy kể cả lỗi hay không (đang tải mà )
+    // }, []);
 
     function addProduct(product: Omit<Product, "id" | "rating" | "reviews">) {
         const nextId =
@@ -74,11 +90,12 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
         const nextProducts = products.filter((product) => product.id !== id);
         saveProduct(nextProducts);
     }
+    const error = queryError ? "Không thể tải sản phẩm" : null;
     return (
         <ProductsContext.Provider
             value={{
                 products,
-                isLoading,
+                isLoading: isPending,
                 error,
                 addProduct,
                 updateProduct,
