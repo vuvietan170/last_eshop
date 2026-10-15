@@ -2,41 +2,43 @@ import { fetchProductById } from "@/api/products";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { getDiscountedPrice } from "@/lib/utils";
 import type { Product } from "@/types/product";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components/ProductCard";
 import { RatingStar } from "@/components/RatingStar";
 import { useToast } from "@/hooks/useToast";
+import { useQuery } from "@tanstack/react-query";
 
 // nhận vào 1 prop id: number để cần biết chính xác sản phẩm nào vì mỗi sản phẩm chỉ có 1 di duy nhất
 export const ProductDetailPage = ({ id }: { id: number }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [product, setProduct] = useState<Product | null>(null);
-
-    //sản phẩm liên quan
     const { products: allProducts } = useProducts();
-    const related = allProducts
-        .filter((p) => p.category === product?.category && p.id !== product.id)
-        .slice(0, 4);
-
     const { addItem, openCart } = useCart();
     const [quantity, setQuantity] = useState(1);
-
     const { showToast } = useToast();
 
-    useEffect(() => {
-        setIsLoading(true); // phải set lại vì lúc lần 1 state sẽ là true nhưng khi đến lần 2 thì state sẽ là false, màn hình sẽ giữ nguyên dữ liệu cũ
-        fetchProductById(id)
-            .then((data) => setProduct(data))
-            .finally(() => setIsLoading(false));
-    }, [id]);
+    const {
+        data: product,
+        isPending: isLoading,
+        isError,
+    } = useQuery<Product, Error>({
+        queryKey: ["product", id],
+        queryFn: () => fetchProductById(id),
+    });
+
+    const related = product
+        ? allProducts
+              .filter(
+                  (p) => p.category === product.category && p.id !== product.id,
+              )
+              .slice(0, 4)
+        : [];
 
     if (isLoading) {
         return <div className="p-8 text-center text-ink">Đang tải...</div>;
     }
-    if (!product) {
+    if (isError || !product) {
         return (
             <div className="p-8 text-center text-signal">
                 Không tìm thấy sản phẩm
